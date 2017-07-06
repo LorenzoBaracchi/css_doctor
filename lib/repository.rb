@@ -2,9 +2,9 @@ require 'git'
 
 class Repository
 
-  def initialize(path)
+  def initialize(repo_url, path)
     @path = path
-    @git = Git.open(path)
+    @git = Git.clone(repo_url, path)
   end
 
   def last_commit
@@ -13,6 +13,10 @@ class Repository
 
   def prev_commit
     commit_list[1]
+  end
+
+  def cleanup
+    FileUtils.rm_rf(@path)
   end
 
   private
